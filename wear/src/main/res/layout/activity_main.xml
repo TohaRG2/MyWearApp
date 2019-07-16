@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                     xmlns:app="http://schemas.android.com/apk/res-auto"
+                                     xmlns:tools="http://schemas.android.com/tools"
+                                     android:layout_width="match_parent"
+                                     android:layout_height="match_parent"
+                                     android:background="@color/dark_grey"
+                                     android:padding="@dimen/box_inset_layout_padding"
+                                     tools:context=".MainActivity"
+                                     tools:deviceIds="wear">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:id="@+id/wear_top_text"
+                android:padding="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/grey"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="@string/hello_world" />
+
+        <TextView
+                android:id="@+id/wear_start_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="60sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/button_text"
+        />
+
+        <TextView
+                android:id="@+id/wear_bottom_text"
+                android:padding="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="@string/bottom_text"/>
+
+        <!--<TextView-->
+                <!--android:id="@+id/set_ambient"-->
+                <!--android:padding="8dp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="8dp"-->
+                <!--android:layout_marginBottom="8dp"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+                <!--android:text="@string/ambient_text"/>-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.wear.widget.BoxInsetLayout>

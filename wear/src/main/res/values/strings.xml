@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MyWearApp</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">1. Текущее время</string>
+    <string name="button_text">0:00</string>
+    <string name="bottom_text">Таймер</string>
+    <string name="ambient_text">=</string>
+</resources>

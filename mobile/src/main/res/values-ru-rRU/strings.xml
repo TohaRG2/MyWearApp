@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyWearApp</string>
+    <string name="volume" translatable="false">громкость:</string>
+    <string name="action_settings">Настройки</string>
+    <string name="recording">запись</string>
+</resources>
