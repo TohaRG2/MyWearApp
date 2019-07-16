@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.support.wearable.activity.WearableActivity
 import android.util.Log
 import android.widget.TextView
-import androidx.wear.ambient.AmbientMode
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.wearable.*
 import java.text.SimpleDateFormat
