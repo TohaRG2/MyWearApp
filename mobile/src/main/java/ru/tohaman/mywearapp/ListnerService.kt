@@ -1,6 +1,9 @@
 package ru.tohaman.mywearapp
 
+import android.content.Context
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.acrcloud.rec.sdk.ACRCloudClient
 import com.acrcloud.rec.sdk.ACRCloudConfig
 import com.acrcloud.rec.sdk.IACRCloudListener
@@ -11,6 +14,10 @@ import org.json.JSONObject
 import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA
 import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA_KEY
 import ru.tohaman.mywearapp.DeveloperKey.TAG
+import android.os.VibrationEffect
+import android.os.Vibrator
+
+
 
 class ListenerService : WearableListenerService(), IACRCloudListener {
 
@@ -133,7 +140,17 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
             tres = result ?: ""
             e.printStackTrace()
         }
-        sendMessage2Wear("$stopTime $outArtist")
+        sendMessage2Wear("$stopTime : $outArtist")
+        if (outArtist != "") oneShotVibration()
+    }
+
+    private fun oneShotVibration() {
+        val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator.vibrate(200)
+        }
     }
 
     override fun onVolumeChanged(volume: Double) {

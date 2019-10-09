@@ -37,7 +37,7 @@ class MainActivity : WearableActivity(),
 
     // Milliseconds between waking processor/screen for updates (преобразуем секунды в милисекунды)
     // Pause between autoShazam requests in ambient mode
-    private val AMBIENT_INTERVAL_MS: Long = TimeUnit.SECONDS.toMillis(25)
+    private val AMBIENT_INTERVAL_MS: Long = TimeUnit.SECONDS.toMillis(28)
 
     private lateinit var ambientUpdateAlarmManager: AlarmManager
     private lateinit var ambientUpdatePendingIntent: PendingIntent
@@ -63,6 +63,7 @@ class MainActivity : WearableActivity(),
 
         topText = findViewById(R.id.wear_top_text)
         topText.setTextColor(Color.DKGRAY)
+        topText.text = "?"
 
         /**Символы форматирования строки
         A - AM или PM
@@ -85,14 +86,13 @@ class MainActivity : WearableActivity(),
         bottomText = findViewById(R.id.wear_bottom_text)
         bottomText.setOnClickListener {
             if (autoShazam) {
-                bottomText.text = "Таймер"
+                bottomText.text = "Старт"
             } else {
-                bottomText.text = "Таймер!"
+                bottomText.text = "Старт!"
 
             }
             autoShazam = !autoShazam
         }
-
     }
 
 
@@ -102,6 +102,7 @@ class MainActivity : WearableActivity(),
         IntentFilter(AMBIENT_UPDATE_ACTION).also { filter ->
             registerReceiver(ambientUpdateBroadcastReceiver, filter)
         }
+        sendRequest2Phone()
     }
 
     override fun onPause() {
