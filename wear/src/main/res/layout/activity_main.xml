@@ -18,6 +18,7 @@
                 android:id="@+id/wear_top_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="end"
                 android:padding="8dp"
                 android:text="@string/hello_world"
                 android:textColor="@color/grey"
