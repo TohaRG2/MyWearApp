@@ -16,6 +16,8 @@ import com.google.android.gms.wearable.*
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import android.graphics.Typeface
+
 
 private const val START_REC_KEY = "ru.tohaman.mywearapp.startRec"
 private const val START_REC = "/startRecognize"
@@ -33,11 +35,12 @@ class MainActivity : WearableActivity(),
     private lateinit var topText: TextView
     private lateinit var mainText: TextView
     private lateinit var bottomText: TextView
+    private lateinit var monthText: TextView
     private var autoShazam = false
 
     // Milliseconds between waking processor/screen for updates (преобразуем секунды в милисекунды)
     // Pause between autoShazam requests in ambient mode
-    private val AMBIENT_INTERVAL_MS: Long = TimeUnit.SECONDS.toMillis(28)
+    private val AMBIENT_INTERVAL_MS: Long = TimeUnit.SECONDS.toMillis(30)
 
     private lateinit var ambientUpdateAlarmManager: AlarmManager
     private lateinit var ambientUpdatePendingIntent: PendingIntent
@@ -61,9 +64,11 @@ class MainActivity : WearableActivity(),
             }
         }
 
+
+
         topText = findViewById(R.id.wear_top_text)
         topText.setTextColor(Color.DKGRAY)
-        topText.text = "?"
+        topText.text = ""
 
         /**Символы форматирования строки
         A - AM или PM
@@ -77,18 +82,28 @@ class MainActivity : WearableActivity(),
         y - год
         z - часовой пояс */
         mainText = findViewById(R.id.wear_start_button)
+
+        val customFont = Typeface.createFromAsset(assets, "fonts/dsdigib.ttf")
+
+        mainText.typeface = customFont
+
         val sdf = SimpleDateFormat("kk:mm", Locale.US)
         mainText.text  = sdf.format(Date())
         mainText.setOnClickListener {
             sendRequest2Phone()
         }
 
+        monthText = findViewById(R.id.month_text)
+        val sdf2 = SimpleDateFormat("d MMM", Locale.getDefault())
+        monthText.text = sdf2.format(Date())
+
         bottomText = findViewById(R.id.wear_bottom_text)
         bottomText.setOnClickListener {
             if (autoShazam) {
-                bottomText.text = "Старт"
+                bottomText.text = ""
+                topText.text = ""
             } else {
-                bottomText.text = "Старт!"
+                bottomText.text = "!"
 
             }
             autoShazam = !autoShazam
@@ -132,6 +147,9 @@ class MainActivity : WearableActivity(),
         }.setUrgent()
 
         val putDataTask: Task<DataItem> = dataClient.putDataItem(putDataReq)
+
+        //Показываем, что запрос послан
+        bottomText.text = ">"
 
 
         /** Calls to the Data Layer API, for example, a call using the putDataItem method of the DataClient class, sometimes
@@ -184,13 +202,14 @@ class MainActivity : WearableActivity(),
                 event.dataItem.also { item ->
                     if (item.uri.path?.compareTo(SEND_DATA) == 0) {
                         DataMapItem.fromDataItem(item).dataMap.apply {
-                            var curText = topText.text
-                            curText = if (getString(SEND_DATA_KEY) != "?") {
-                                getString(SEND_DATA_KEY)
+                            if (getString(SEND_DATA_KEY) != "?") {
+                                //получен ответ от телефона (не подтверждение "?")
+                                topText.text = getString(SEND_DATA_KEY)
+                                bottomText.text = if (autoShazam) "=" else ""
                             } else {
-                                "?$curText"
+                                //получено подтверждение на запрос
+                                bottomText.text = "?"
                             }
-                            topText.text = curText
                         }
                     }
                 }
@@ -203,7 +222,7 @@ class MainActivity : WearableActivity(),
     override fun onEnterAmbient(ambientDetails: Bundle?) {
         super.onEnterAmbient(ambientDetails)
 
-        topText.setTextColor(Color.WHITE)
+        topText.setTextColor(Color.DKGRAY)
 
         topText.paint.isAntiAlias = false
         mainText.paint.isAntiAlias = false
@@ -215,7 +234,7 @@ class MainActivity : WearableActivity(),
     override fun onExitAmbient() {
         super.onExitAmbient()
 
-        topText.setTextColor(Color.DKGRAY)
+        if (autoShazam) topText.setTextColor(Color.BLACK)
 
         topText.paint.isAntiAlias = true
         mainText.paint.isAntiAlias = true

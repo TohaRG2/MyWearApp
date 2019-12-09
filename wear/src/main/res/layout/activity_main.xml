@@ -18,15 +18,39 @@
                 android:id="@+id/wear_top_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
                 android:gravity="end"
                 android:padding="8dp"
-                android:text="@string/hello_world"
-                android:textColor="@color/grey"
+                android:text="@string/top_text"
+                android:textColor="@color/dark_grey"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_conversion_absoluteHeight="35dp"
-                tools:layout_conversion_absoluteWidth="176dp" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+                android:id="@+id/wear_start_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/dsdigib"
+                android:text="@string/button_text"
+                android:textSize="65sp"
+                app:layout_constraintBottom_toTopOf="@+id/month_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <TextView
+                android:id="@+id/month_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="26 нояб."
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/wear_bottom_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
 
         <TextView
                 android:id="@+id/wear_bottom_text"
@@ -36,20 +60,8 @@
                 android:text="@string/bottom_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-                android:id="@+id/wear_start_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/button_text"
-                android:textSize="60sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_conversion_absoluteHeight="81dp"
-                tools:layout_conversion_absoluteWidth="176dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.wear.widget.BoxInsetLayout>
