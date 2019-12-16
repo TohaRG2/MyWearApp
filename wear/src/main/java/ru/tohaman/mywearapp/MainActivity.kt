@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.wearable.activity.WearableActivity
 import android.util.Log
@@ -16,7 +17,6 @@ import com.google.android.gms.wearable.*
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-import android.graphics.Typeface
 
 
 private const val START_REC_KEY = "ru.tohaman.mywearapp.startRec"
@@ -203,9 +203,10 @@ class MainActivity : WearableActivity(),
                     if (item.uri.path?.compareTo(SEND_DATA) == 0) {
                         DataMapItem.fromDataItem(item).dataMap.apply {
                             if (getString(SEND_DATA_KEY) != "?") {
-                                //получен ответ от телефона (не подтверждение "?")
-                                val artist = getString(SEND_DATA_KEY).substringAfter(":")
-                                val time = getString(SEND_DATA_KEY).substringBefore(":")
+                                //получен ответ от телефона (не подтверждение "?"
+                                val artist = getString(SEND_DATA_KEY).substringAfter(":").trim() //артист
+                                val artLetter = firstWordLetter(artist) //первые буквы артиста
+                                val time = getString(SEND_DATA_KEY).substringBefore(":").trim() + " " + artLetter //время определения + первые буквы
                                 topText.text = artist
                                 bottomText.text = if (autoShazam) time else ""
                             } else {
@@ -219,6 +220,23 @@ class MainActivity : WearableActivity(),
                 // DataItem deleted
             }
         }
+    }
+
+    fun firstWordLetter(s: String): String? {
+        val arr = s.toCharArray()
+        var rst = ""
+        var inWord = false
+        for (i in arr.indices) {
+            if (arr[i] != ' ') {
+                if (!inWord) {
+                    rst += arr[i]
+                    inWord = true
+                }
+            } else {
+                inWord = false
+            }
+        }
+        return rst
     }
 
     override fun onEnterAmbient(ambientDetails: Bundle?) {
