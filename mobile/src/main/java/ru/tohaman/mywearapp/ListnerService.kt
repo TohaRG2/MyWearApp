@@ -147,9 +147,9 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
     private fun oneShotVibration() {
         val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrator.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE))
+            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
         } else {
-            vibrator.vibrate(300)
+            vibrator.vibrate(500)
         }
     }
 

@@ -204,8 +204,10 @@ class MainActivity : WearableActivity(),
                         DataMapItem.fromDataItem(item).dataMap.apply {
                             if (getString(SEND_DATA_KEY) != "?") {
                                 //получен ответ от телефона (не подтверждение "?")
-                                topText.text = getString(SEND_DATA_KEY)
-                                bottomText.text = if (autoShazam) "=" else ""
+                                val artist = getString(SEND_DATA_KEY).substringAfter(":")
+                                val time = getString(SEND_DATA_KEY).substringBefore(":")
+                                topText.text = artist
+                                bottomText.text = if (autoShazam) time else ""
                             } else {
                                 //получено подтверждение на запрос
                                 bottomText.text = "?"
