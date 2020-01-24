@@ -100,11 +100,11 @@ class MainActivity : WearableActivity(),
         bottomText = findViewById(R.id.wear_bottom_text)
         bottomText.setOnClickListener {
             if (autoShazam) {
-                bottomText.text = ""
                 topText.text = ""
+                bottomText.text = ""
             } else {
+                topText.text = ""
                 bottomText.text = "!"
-
             }
             autoShazam = !autoShazam
         }
@@ -202,7 +202,7 @@ class MainActivity : WearableActivity(),
                 event.dataItem.also { item ->
                     if (item.uri.path?.compareTo(SEND_DATA) == 0) {
                         DataMapItem.fromDataItem(item).dataMap.apply {
-                            if (getString(SEND_DATA_KEY) != "?") {
+                            if ((getString(SEND_DATA_KEY) != "?") and (bottomText.text == "?")) {
                                 //получен ответ от телефона (не подтверждение "?"
                                 val artist = getString(SEND_DATA_KEY).substringAfter(":").trim() //артист
                                 val artLetter = firstWordLetter(artist) //первые буквы артиста
