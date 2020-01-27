@@ -23,10 +23,11 @@
                 android:padding="8dp"
                 android:text="@string/top_text"
                 android:textColor="@color/dark_grey"
-                android:textSize="13sp"
+                android:textSize="11sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Sunrise Avenue" />
 
 
         <TextView
