@@ -210,8 +210,10 @@ class MainActivity : WearableActivity(),
                                 topText.text = artist
                                 bottomText.text = if (autoShazam) time else ""
                             } else {
-                                //получено подтверждение на запрос
-                                bottomText.text = "?"
+                                //получено подтверждение на запрос и внизу не пусто (если пусто, значит отменили запрос и ничего выводить не надо)
+                                if (bottomText.text != "") {
+                                    bottomText.text = "?"
+                                }
                             }
                         }
                     }
