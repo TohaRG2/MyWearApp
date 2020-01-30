@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import android.graphics.Typeface
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 private const val START_REC_KEY = "ru.tohaman.mywearapp.startRec"
@@ -46,6 +47,8 @@ class MainActivity : WearableActivity(),
     private lateinit var ambientUpdatePendingIntent: PendingIntent
     private lateinit var ambientUpdateBroadcastReceiver: BroadcastReceiver
 
+    private var textSize = 12
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -64,7 +67,17 @@ class MainActivity : WearableActivity(),
             }
         }
 
+        wear_top_button.setOnClickListener {
+            textSize++
+            topText.textSize = textSize.toFloat()
+            topText.text = "Example Text + $textSize"
+        }
 
+        wear_bottom_button.setOnClickListener {
+            textSize--
+            topText.textSize = textSize.toFloat()
+            topText.text = "Example Text + $textSize"
+        }
 
         topText = findViewById(R.id.wear_top_text)
         topText.setTextColor(Color.DKGRAY)
@@ -223,6 +236,7 @@ class MainActivity : WearableActivity(),
         super.onEnterAmbient(ambientDetails)
 
         topText.setTextColor(Color.DKGRAY)
+        topText.textSize = textSize.toFloat()
 
         topText.paint.isAntiAlias = false
         mainText.paint.isAntiAlias = false
@@ -234,7 +248,10 @@ class MainActivity : WearableActivity(),
     override fun onExitAmbient() {
         super.onExitAmbient()
 
-        if (autoShazam) topText.setTextColor(Color.BLACK)
+        if (autoShazam) {
+            topText.setTextColor(Color.BLACK)
+            topText.textSize = 7f
+        }
 
         topText.paint.isAntiAlias = true
         mainText.paint.isAntiAlias = true

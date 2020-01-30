@@ -25,9 +25,22 @@
                 android:textColor="@color/dark_grey"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/wear_top_button"
                 app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+                android:id="@+id/wear_top_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:gravity="end"
+                android:padding="8dp"
+                android:text="+"
+                android:textColor="@color/dark_grey"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/wear_top_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
                 android:id="@+id/wear_start_button"
@@ -59,8 +72,18 @@
                 android:padding="8dp"
                 android:text="@string/bottom_text"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/wear_bottom_button"
                 app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+                android:id="@+id/wear_bottom_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="-"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/wear_bottom_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

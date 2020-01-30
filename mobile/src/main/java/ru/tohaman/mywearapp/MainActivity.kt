@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity(), IACRCloudListener {
 
     private var count = 0
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
