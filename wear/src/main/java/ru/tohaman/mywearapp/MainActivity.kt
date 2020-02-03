@@ -163,7 +163,7 @@ class MainActivity : WearableActivity(),
 
         //Показываем, что запрос послан
         bottomText.text = ">"
-
+        Log.d(TAG, "> запрос отправлен")
 
         /** Calls to the Data Layer API, for example, a call using the putDataItem method of the DataClient class, sometimes
          * return a Task<ResultType> object. As soon as the Task object is created, the operation is queued in the background.
@@ -215,9 +215,11 @@ class MainActivity : WearableActivity(),
                 event.dataItem.also { item ->
                     if (item.uri.path?.compareTo(SEND_DATA) == 0) {
                         DataMapItem.fromDataItem(item).dataMap.apply {
-                            if (getString(SEND_DATA_KEY) != "?") {
+                            val gettedString = getString(SEND_DATA_KEY)
+                            Log.d(TAG, "$gettedString")
+                            if (gettedString != "?") {
                                 //получен ответ от телефона (не подтверждение "?")
-                                topText.text = getString(SEND_DATA_KEY)
+                                topText.text = gettedString
                                 bottomText.text = if (autoShazam) "=" else ""
                             } else {
                                 //получено подтверждение на запрос
