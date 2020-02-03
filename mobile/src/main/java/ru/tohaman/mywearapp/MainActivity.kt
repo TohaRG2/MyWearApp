@@ -69,7 +69,10 @@ class MainActivity : AppCompatActivity(), IACRCloudListener {
                 textSize = 26f }.onClick { playStop() }
 
             button ("Cancel") {
-                textSize = 26f }.onClick { playCancel() }
+                textSize = 26f }.onClick {
+                //playCancel()
+                startActivity<ListActivity>()
+            }
 
             button (resources.getString(R.string.send)) {
                 textSize = 26f }.onClick { sendMessage2Wear("Данные с телефона ${count++}") }

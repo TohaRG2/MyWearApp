@@ -41,13 +41,13 @@ class MainActivity : WearableActivity(),
 
     // Milliseconds between waking processor/screen for updates (преобразуем секунды в милисекунды)
     // Pause between autoShazam requests in ambient mode
-    private val AMBIENT_INTERVAL_MS: Long = TimeUnit.SECONDS.toMillis(30)
+    private val AMBIENT_INTERVAL_MS: Long = TimeUnit.SECONDS.toMillis(25)
 
     private lateinit var ambientUpdateAlarmManager: AlarmManager
     private lateinit var ambientUpdatePendingIntent: PendingIntent
     private lateinit var ambientUpdateBroadcastReceiver: BroadcastReceiver
 
-    private var textSize = 12
+    private var textSize = 13
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -130,7 +130,7 @@ class MainActivity : WearableActivity(),
         IntentFilter(AMBIENT_UPDATE_ACTION).also { filter ->
             registerReceiver(ambientUpdateBroadcastReceiver, filter)
         }
-        sendRequest2Phone()
+        //sendRequest2Phone()
     }
 
     override fun onPause() {
@@ -181,6 +181,7 @@ class MainActivity : WearableActivity(),
 
     private fun refreshDisplayAndSetNextUpdate() {
         val sdf = SimpleDateFormat("kk:mm", Locale.UK)
+        Log.d(TAG, "refreshDisplayAndSetNextUpdate")
         mainText.text  = sdf.format(Date())
         if (autoShazam) { sendRequest2Phone() }
 
@@ -265,7 +266,7 @@ class MainActivity : WearableActivity(),
     override fun onUpdateAmbient() {
         super.onUpdateAmbient()
 
-        refreshDisplayAndSetNextUpdate()
+        //refreshDisplayAndSetNextUpdate()
     }
 
 }

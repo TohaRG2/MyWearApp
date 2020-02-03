@@ -16,7 +16,9 @@ import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA_KEY
 import ru.tohaman.mywearapp.DeveloperKey.TAG
 import android.os.VibrationEffect
 import android.os.Vibrator
-
+import ru.tohaman.mywearapp.data.MusicDB
+import ru.tohaman.mywearapp.data.MusicItem
+import java.util.*
 
 
 class ListenerService : WearableListenerService(), IACRCloudListener {
@@ -29,6 +31,8 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
 
     private var mProcessing = false
     private var initState = false
+
+    //private val dao = MusicDB.get(baseContext).musicItemDao()
 
 
     override fun onCreate() {
@@ -52,6 +56,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
 
     private fun sendMessage2Wear(message : String, key: String = SEND_DATA_KEY, path: String = SEND_DATA) {
         Log.d("D/MWA","key = $key , message = $message")
+
         val dataClient = Wearable.getDataClient(this)
 
         val putDataReq: PutDataRequest = PutDataMapRequest.create(path).run {
@@ -91,7 +96,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
         dataEvents.map { it.dataItem.uri }
             .forEach { uri ->
                 // Get the node id from the host value of the URI
-                val nodeId: String = uri.host
+                val nodeId: String? = uri.host
                 // Set the data of the message to be the bytes of the URI
                 val payload: ByteArray = uri.toString().toByteArray()
 
@@ -111,7 +116,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
 
         var tres = "\n"
 
-        var outTitle: String
+        var outTitle = ""
         var outArtist = ""
 
         try {
@@ -142,6 +147,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
             e.printStackTrace()
         }
         sendMessage2Wear("$stopTime : $outArtist")
+        //dao.insert(MusicItem(0, outArtist, outTitle, Date()))
         if (outArtist != "") oneShotVibration()
     }
 
