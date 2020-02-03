@@ -5,29 +5,20 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.tohaman.mywearapp.R
 import ru.tohaman.mywearapp.data.MusicItem
 
-class MusicAdapter : RecyclerView.Adapter<MusicAdapter.MusicViewHolder>() {
-    private val mDataList: MutableList<MusicItem> = ArrayList()
-
-    fun setData(data: List<MusicItem>) {
-        mDataList.clear()
-        mDataList.addAll(data)
-        notifyDataSetChanged()
-    }
+class MusicPLAdapter : PagedListAdapter<MusicItem, MusicPLAdapter.MusicViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicViewHolder {
         return MusicViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.music_item, parent, false))
     }
 
-    override fun getItemCount(): Int {
-        return mDataList.size
-    }
-
     override fun onBindViewHolder(holder: MusicViewHolder, position: Int) {
-        val currentItem = mDataList[position]
+        val currentItem = getItem(position)
         holder.bindTo(currentItem)
     }
 
@@ -35,9 +26,21 @@ class MusicAdapter : RecyclerView.Adapter<MusicAdapter.MusicViewHolder>() {
     class MusicViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val titleText = itemView.findViewById<TextView>(R.id.titleText)
         private val artistText = itemView.findViewById<TextView>(R.id.artistText)
-        fun bindTo(menuItem: MusicItem) {
-            titleText.text = menuItem.title
-            artistText.text = menuItem.artist
+        var musicItem: MusicItem? = null
+        fun bindTo(menuItem: MusicItem?) {
+            this.musicItem = menuItem
+            titleText.text = menuItem?.title
+            artistText.text = menuItem?.artist
+        }
+    }
+
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<MusicItem>() {
+            override fun areItemsTheSame(oldItem: MusicItem, newItem: MusicItem): Boolean =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: MusicItem, newItem: MusicItem): Boolean =
+                oldItem == newItem
         }
     }
 
