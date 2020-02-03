@@ -51,6 +51,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
     }
 
     private fun sendMessage2Wear(message : String, key: String = SEND_DATA_KEY, path: String = SEND_DATA) {
+        Log.d("D/MWA","key = $key , message = $message")
         val dataClient = Wearable.getDataClient(this)
 
         val putDataReq: PutDataRequest = PutDataMapRequest.create(path).run {
