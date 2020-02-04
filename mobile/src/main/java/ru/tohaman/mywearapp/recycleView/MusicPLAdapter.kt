@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.tohaman.mywearapp.R
 import ru.tohaman.mywearapp.data.MusicItem
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MusicPLAdapter : PagedListAdapter<MusicItem, MusicPLAdapter.MusicViewHolder>(diffCallback) {
 
@@ -26,9 +28,13 @@ class MusicPLAdapter : PagedListAdapter<MusicItem, MusicPLAdapter.MusicViewHolde
     class MusicViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val titleText = itemView.findViewById<TextView>(R.id.titleText)
         private val artistText = itemView.findViewById<TextView>(R.id.artistText)
-        var musicItem: MusicItem? = null
+        private val dateText = itemView.findViewById<TextView>(R.id.titleDate)
+        //var musicItem: MusicItem? = null
         fun bindTo(menuItem: MusicItem?) {
-            this.musicItem = menuItem
+          //  this.musicItem = menuItem
+            val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+            val currentDate = sdf.format(menuItem?.date)
+            dateText.text = currentDate
             titleText.text = menuItem?.title
             artistText.text = menuItem?.artist
         }

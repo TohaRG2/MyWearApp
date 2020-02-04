@@ -9,11 +9,10 @@ import java.util.*
  */
 @Entity(tableName = "RQ_Results")
 data class MusicItem (
-    @PrimaryKey
-    var id: Long = 0,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     var artist: String = "",
     var title: String = "",
-    var date: Date = Calendar.getInstance().time as Date
+    var date: Date = Date()
 )
 
 

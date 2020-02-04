@@ -7,6 +7,7 @@ import android.os.Environment
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -27,8 +28,12 @@ import ru.tohaman.mywearapp.DeveloperKey.TAG
 import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA
 import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA_KEY
 import ru.tohaman.mywearapp.DeveloperKey.START_REC
+import ru.tohaman.mywearapp.data.MusicItem
+import java.util.*
 
 class MainActivity : AppCompatActivity(), IACRCloudListener {
+
+    private val viewModel by viewModels<MusicViewModel>()
 
     private lateinit var volumeTextView: TextView
     private lateinit var resultTextView: TextView
@@ -65,16 +70,16 @@ class MainActivity : AppCompatActivity(), IACRCloudListener {
             button ("Play") {
                 textSize = 26f }.onClick { playStart() }
 
-            button ("PlayStop") {
+            button ("Stop") {
                 textSize = 26f }.onClick { playStop() }
 
-            button ("Cancel") {
+            button ("Show Table") {
                 textSize = 26f }.onClick {
                 //playCancel()
                 startActivity<ListActivity>()
             }
 
-            button (resources.getString(R.string.send)) {
+            button (R.string.send) {
                 textSize = 26f }.onClick { sendMessage2Wear("Данные с телефона ${count++}") }
 
             volumeTextView = textView ("Громкость:")
@@ -188,7 +193,7 @@ class MainActivity : AppCompatActivity(), IACRCloudListener {
 
         var tres = "\n"
 
-        var outTitle: String
+        var outTitle = ""
         var outArtist = ""
 
         try {
@@ -218,7 +223,7 @@ class MainActivity : AppCompatActivity(), IACRCloudListener {
             tres = result ?: ""
             e.printStackTrace()
         }
-
+        viewModel.insert(MusicItem(0, outArtist, outTitle, Date()))
         resultTextView.text = tres
         sendMessage2Wear(outArtist)
     }

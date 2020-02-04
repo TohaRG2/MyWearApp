@@ -16,8 +16,11 @@ import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA_KEY
 import ru.tohaman.mywearapp.DeveloperKey.TAG
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.service.autofill.Validators.or
+import androidx.activity.viewModels
 import ru.tohaman.mywearapp.data.MusicDB
 import ru.tohaman.mywearapp.data.MusicItem
+import ru.tohaman.mywearapp.data.MusicItemDao
 import java.util.*
 
 
@@ -32,13 +35,14 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
     private var mProcessing = false
     private var initState = false
 
-    //private val dao = MusicDB.get(baseContext).musicItemDao()
+    private lateinit var dao: MusicItemDao
 
 
     override fun onCreate() {
         super.onCreate()
         mConfig = ACRCloudConfig()
         mConfig.acrcloudListener = this
+        dao = MusicDB.get(this).musicItemDao()
 
         // If you implement IACRCloudResultWithAudioListener and override "onResult(ACRCloudResult result)", you can get the Audio data.
         //this.mConfig.acrcloudResultWithAudioListener = this;
@@ -147,8 +151,10 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
             e.printStackTrace()
         }
         sendMessage2Wear("$stopTime : $outArtist")
-        //dao.insert(MusicItem(0, outArtist, outTitle, Date()))
-        if (outArtist != "") oneShotVibration()
+        ioThread {
+            dao.insert(MusicItem(0, outArtist, outTitle, Date()))
+        }
+        if ((outArtist != "") or (outArtist != "?" ) ) oneShotVibration()
     }
 
     private fun oneShotVibration() {
