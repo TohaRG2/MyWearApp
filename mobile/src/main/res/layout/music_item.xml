@@ -16,31 +16,39 @@
                 android:id="@+id/artistText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
                 android:padding="8dp"
-                android:text="Artist"
+                android:text=""
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-                android:id="@+id/titleDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date"
-                android:textSize="10sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titleText" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="The Rasmus" />
 
         <TextView
                 android:id="@+id/titleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="Composition"
+                android:text=""
+                tools:text="04/02/2020 23:32:32"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/titleDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:paddingHorizontal="8sp"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/titleText"
+                tools:text="Sail Away" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
