@@ -223,7 +223,7 @@ class MainActivity : AppCompatActivity(), IACRCloudListener {
             tres = result ?: ""
             e.printStackTrace()
         }
-        viewModel.insert(MusicItem(0, outArtist, outTitle, Date()))
+        viewModel.insert(MusicItem(0, outArtist, outTitle, stopTime, Date()))
         resultTextView.text = tres
         sendMessage2Wear(outArtist)
     }

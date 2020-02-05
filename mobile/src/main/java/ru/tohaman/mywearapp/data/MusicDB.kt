@@ -31,11 +31,11 @@ abstract class MusicDB : RoomDatabase() {
 
         private fun fillDb(context: Context) {
             ioThread {
-                get(context).musicItemDao().insert(MusicItem(0, "SomeArtist", "SomeSong", Date()))
-                get(context).musicItemDao().insert(MusicItem(1, "SomeArtist2", "SomeSong2", Date()))
-                get(context).musicItemDao().insert(MusicItem(2, "SomeArtist3", "SomeSong3", Date()))
-                get(context).musicItemDao().insert(MusicItem(3, "SomeArtist4", "SomeSong4", Date()))
-                get(context).musicItemDao().insert(MusicItem(4, "SomeArtist5", "SomeSong5", Date()))
+                get(context).musicItemDao().insert(MusicItem(0, "SomeArtist", "SomeSong", 0, Date()))
+                get(context).musicItemDao().insert(MusicItem(1, "SomeArtist2", "SomeSong2", 1, Date()))
+                get(context).musicItemDao().insert(MusicItem(2, "SomeArtist3", "SomeSong3", 2, Date()))
+                get(context).musicItemDao().insert(MusicItem(3, "SomeArtist4", "SomeSong4", 3, Date()))
+                get(context).musicItemDao().insert(MusicItem(4, "SomeArtist5", "SomeSong5", 4, Date()))
             }
         }
     }

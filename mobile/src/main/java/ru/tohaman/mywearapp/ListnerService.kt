@@ -32,14 +32,13 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
     private var mProcessing = false
     private var initState = false
 
-    private var dao: MusicItemDao? = null
+    //private var dao: MusicItemDao? = null
 
 
     override fun onCreate() {
         super.onCreate()
         mConfig = ACRCloudConfig()
         mConfig.acrcloudListener = this
-        dao = MusicDB.get(this).musicItemDao()
 
         // If you implement IACRCloudResultWithAudioListener and override "onResult(ACRCloudResult result)", you can get the Audio data.
         //this.mConfig.acrcloudResultWithAudioListener = this;
@@ -97,7 +96,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
         dataEvents.map { it.dataItem.uri }
             .forEach { uri ->
                 // Get the node id from the host value of the URI
-                val nodeId: String? = uri.host
+                //val nodeId: String? = uri.host
                 // Set the data of the message to be the bytes of the URI
                 val payload: ByteArray = uri.toString().toByteArray()
 
@@ -149,7 +148,8 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
         }
         sendMessage2Wear("$stopTime : $outArtist")
             ioThread {
-                dao?.insert(MusicItem(0, outArtist, outTitle, Date()))
+                val dao = MusicDB.get(applicationContext as Context).musicItemDao()
+                dao?.insert(MusicItem(0, outArtist, outTitle, stopTime, Date()))
             }
         if ((outArtist != "") or (outArtist != "?" ) ) oneShotVibration()
     }

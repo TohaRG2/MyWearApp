@@ -12,6 +12,7 @@ data class MusicItem (
     @PrimaryKey(autoGenerate = true) val id: Int,
     var artist: String = "",
     var title: String = "",
+    var recTime: Long = 0,
     var date: Date = Date()
 )
 

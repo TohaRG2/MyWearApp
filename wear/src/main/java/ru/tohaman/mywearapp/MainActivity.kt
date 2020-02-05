@@ -149,22 +149,22 @@ class MainActivity : WearableActivity(),
         /** https://developer.android.com/training/wearables/data-layer/data-items#ListenEvents
          *  https://itnan.ru/post.php?c=1&p=353748
          * */
+        if ((bottomText.text != "?") and (bottomText.text != ">")) {
+            val dataClient = Wearable.getDataClient(this)
 
-        val dataClient = Wearable.getDataClient(this)
-
-        val putDataReq: PutDataRequest = PutDataMapRequest.create(START_REC).run {
-            dataMap.putString(START_REC_KEY, "Данные с часов ${count++}")
+            val putDataReq: PutDataRequest = PutDataMapRequest.create(START_REC).run {
+                dataMap.putString(START_REC_KEY, "Данные с часов ${count++}")
 //            dataMap.putInt(COUNT_KEY, count++)
-            asPutDataRequest()
-        // Добавим, что данные надо передать срочно, а не отложенно
-        }.setUrgent()
+                asPutDataRequest()
+                // Добавим, что данные надо передать срочно, а не отложенно
+            }.setUrgent()
 
-        val putDataTask: Task<DataItem> = dataClient.putDataItem(putDataReq)
+            val putDataTask: Task<DataItem> = dataClient.putDataItem(putDataReq)
 
-        //Показываем, что запрос послан
-        bottomText.text = ">"
-        Log.d(TAG, "> запрос отправлен")
-
+            //Показываем, что запрос послан
+            bottomText.text = ">"
+            Log.d(TAG, "> запрос отправлен")
+        }
         /** Calls to the Data Layer API, for example, a call using the putDataItem method of the DataClient class, sometimes
          * return a Task<ResultType> object. As soon as the Task object is created, the operation is queued in the background.
          * If you do nothing more after this, the operation eventually completes silently. However, you'll usually want to do
