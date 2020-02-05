@@ -3,7 +3,6 @@ package ru.tohaman.mywearapp
 import android.content.Context
 import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import com.acrcloud.rec.sdk.ACRCloudClient
 import com.acrcloud.rec.sdk.ACRCloudConfig
 import com.acrcloud.rec.sdk.IACRCloudListener
@@ -16,8 +15,6 @@ import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA_KEY
 import ru.tohaman.mywearapp.DeveloperKey.TAG
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.service.autofill.Validators.or
-import androidx.activity.viewModels
 import ru.tohaman.mywearapp.data.MusicDB
 import ru.tohaman.mywearapp.data.MusicItem
 import ru.tohaman.mywearapp.data.MusicItemDao
@@ -35,7 +32,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
     private var mProcessing = false
     private var initState = false
 
-    private lateinit var dao: MusicItemDao
+    private var dao: MusicItemDao? = null
 
 
     override fun onCreate() {
@@ -151,9 +148,9 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
             e.printStackTrace()
         }
         sendMessage2Wear("$stopTime : $outArtist")
-        ioThread {
-            dao.insert(MusicItem(0, outArtist, outTitle, Date()))
-        }
+            ioThread {
+                dao?.insert(MusicItem(0, outArtist, outTitle, Date()))
+            }
         if ((outArtist != "") or (outArtist != "?" ) ) oneShotVibration()
     }
 
