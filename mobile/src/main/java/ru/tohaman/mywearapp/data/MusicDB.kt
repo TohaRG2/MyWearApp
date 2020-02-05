@@ -21,7 +21,7 @@ abstract class MusicDB : RoomDatabase() {
                     context.applicationContext, MusicDB::class.java, "base.db"
                 ).addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
-                        fillDb(context.applicationContext)
+                        //fillDb(context.applicationContext)
                     }
 
                 }).build()
