@@ -10,34 +10,43 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.tohaman.mywearapp.R
 import ru.tohaman.mywearapp.data.MusicItem
+import ru.tohaman.mywearapp.databinding.MusicItemBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MusicPLAdapter : PagedListAdapter<MusicItem, MusicPLAdapter.MusicViewHolder>(diffCallback) {
+class MusicPLAdapter (private val onClickListener: OnClickListener) : PagedListAdapter<MusicItem, MusicPLAdapter.MusicViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicViewHolder {
-        return MusicViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.music_item, parent, false))
+        return MusicViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: MusicViewHolder, position: Int) {
         val currentItem = getItem(position)
-        holder.bindTo(currentItem)
+        holder.bindTo(currentItem, onClickListener)
     }
 
 
-    class MusicViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        private val titleText = itemView.findViewById<TextView>(R.id.titleText)
-        private val artistText = itemView.findViewById<TextView>(R.id.artistText)
-        private val dateText = itemView.findViewById<TextView>(R.id.titleDate)
-        //var musicItem: MusicItem? = null
-        fun bindTo(menuItem: MusicItem?) {
-          //  this.musicItem = menuItem
-            val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-            val currentDate = sdf.format(menuItem?.date)
-            dateText.text = currentDate
-            titleText.text = menuItem?.title
-            artistText.text = menuItem?.artist
+    class MusicViewHolder private constructor(private val binding: MusicItemBinding): RecyclerView.ViewHolder(binding.root) {
+        var menuItem : MusicItem? = null
+
+        fun bindTo(menuItem: MusicItem?, onClickListener: OnClickListener) {
+            this.menuItem = menuItem
+            binding.viewMenuItem = menuItem
+            binding.clickListener = onClickListener
+            binding.executePendingBindings()
         }
+
+        companion object {
+            fun from(parent: ViewGroup) : MusicViewHolder {
+                val inflater = LayoutInflater.from(parent.context)
+                val binding = MusicItemBinding.inflate(inflater, parent, false)
+                return MusicViewHolder(binding)
+            }
+        }
+    }
+
+    class OnClickListener(val clickListener: (MusicItem) -> Unit) {
+        fun onClick(menuItem: MusicItem) = clickListener(menuItem)
     }
 
     companion object {

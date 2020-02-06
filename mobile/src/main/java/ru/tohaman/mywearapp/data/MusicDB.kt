@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
 import ru.tohaman.mywearapp.ioThread
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -51,4 +52,5 @@ class Converters {
     fun dateToTimestamp(date: Date?): Long? {
         return date?.time
     }
+
 }
