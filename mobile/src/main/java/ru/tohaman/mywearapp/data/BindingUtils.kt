@@ -11,3 +11,10 @@ fun dateToString(textView: TextView, date: Date?) {
         textView.text = SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(it)
     }
 }
+
+@BindingAdapter("showTime")
+fun showTime(textView: TextView, time: Long?) {
+    time?.let {
+        textView.text = "$it сек"
+    }
+}
