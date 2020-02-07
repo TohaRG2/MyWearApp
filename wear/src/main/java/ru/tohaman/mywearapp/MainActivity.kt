@@ -214,6 +214,7 @@ class MainActivity : WearableActivity(),
             // DataItem changed
             if (event.type == DataEvent.TYPE_CHANGED) {
                 event.dataItem.also { item ->
+                    Log.i(TAG, "onDataChanged.Item: ${item.uri.path}")
                     if (item.uri.path?.compareTo(SEND_DATA) == 0) {
                         DataMapItem.fromDataItem(item).dataMap.apply {
                             val gettedString = getString(SEND_DATA_KEY)
@@ -244,6 +245,10 @@ class MainActivity : WearableActivity(),
         topText.paint.isAntiAlias = false
         mainText.paint.isAntiAlias = false
         bottomText.paint.isAntiAlias = false
+
+        if (bottomText.text == ">") {
+            bottomText.text = "="
+        }
 
         refreshDisplayAndSetNextUpdate()
     }

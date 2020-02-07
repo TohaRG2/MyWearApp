@@ -18,6 +18,7 @@ import android.os.Vibrator
 import ru.tohaman.mywearapp.data.MusicDB
 import ru.tohaman.mywearapp.data.MusicItem
 import ru.tohaman.mywearapp.data.MusicItemDao
+import java.io.IOException
 import java.util.*
 
 
@@ -37,6 +38,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
 
     override fun onCreate() {
         super.onCreate()
+        Log.d("D/MWA","onCreate ListnerService")
         mConfig = ACRCloudConfig()
         mConfig.acrcloudListener = this
 
@@ -67,10 +69,12 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
 
         val putDataTask: Task<DataItem> = dataClient.putDataItem(putDataReq)
         //тут еще по идее можно обработать результат таска
+        //mGoogleApiClient.disconnect(); mGoogleApiClient.connect();
     }
 
 
     private fun startRecognize() {
+        Log.d("D/MWA","stertRecoginze ListnerService")
         if (!initState) {
             sendMessage2Wear("Start init error")
             return
@@ -95,6 +99,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
 
         dataEvents.map { it.dataItem.uri }
             .forEach { uri ->
+                Log.d(TAG, "onDataChanged.Item: ${uri.path}")
                 // Get the node id from the host value of the URI
                 //val nodeId: String? = uri.host
                 // Set the data of the message to be the bytes of the URI
@@ -109,6 +114,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
     }
 
     override fun onResult(result: String?) {
+        Log.d("D/MWA","onResult ListnerService")
         if (mClient != null) {
             mClient!!.cancel()
             mProcessing = false
@@ -148,8 +154,13 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
         }
         sendMessage2Wear("$stopTime : $outArtist")
             ioThread {
-                val dao = MusicDB.get(applicationContext as Context).musicItemDao()
-                dao?.insert(MusicItem(0, outArtist, outTitle, stopTime, Date()))
+                try {
+                    val dao = MusicDB.get(applicationContext as Context).musicItemDao()
+                    dao.insert(MusicItem(0, outArtist, outTitle, stopTime, Date()))
+                }
+                catch (e: IOException) {
+                    Log.d("D/MWA", "room.dao.exception")
+                }
             }
         if ((outArtist != "") or (outArtist != "?" ) ) oneShotVibration()
     }
