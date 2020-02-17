@@ -1,5 +1,6 @@
 package ru.tohaman.mywearapp.data
 
+import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
 
@@ -10,7 +11,7 @@ interface MusicItemDao {
     fun getAll(): DataSource.Factory<Int, MusicItem>
 
     @Query("SELECT * FROM RQ_Results WHERE id = :id")
-    fun getById(id: Long): MusicItem?
+    fun getById(id: Long): LiveData<MusicItem?>
 
     @Insert
     fun insert(musicItem: MusicItem?)

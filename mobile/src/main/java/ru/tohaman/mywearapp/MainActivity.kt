@@ -24,11 +24,10 @@ import ru.tohaman.mywearapp.DeveloperKey.DK_ACRCloudAccessKey
 import ru.tohaman.mywearapp.DeveloperKey.DK_ACRCloudAccessSecret
 import ru.tohaman.mywearapp.DeveloperKey.DK_ACRCloudHostKey
 import java.io.File
-import ru.tohaman.mywearapp.DeveloperKey.TAG
 import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA
 import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA_KEY
-import ru.tohaman.mywearapp.DeveloperKey.START_REC
 import ru.tohaman.mywearapp.data.MusicItem
+import ru.tohaman.mywearapp.viewModels.MusicViewModel
 import java.util.*
 
 class MainActivity : AppCompatActivity(), IACRCloudListener {
@@ -223,7 +222,9 @@ class MainActivity : AppCompatActivity(), IACRCloudListener {
             tres = result ?: ""
             e.printStackTrace()
         }
-        viewModel.insert(MusicItem(0, outArtist, outTitle, stopTime, Date()))
+        if (result != null) {
+            viewModel.insert(MusicItem(0, outArtist, outTitle, stopTime, Date(), result))
+        }
         resultTextView.text = tres
         sendMessage2Wear(outArtist)
     }

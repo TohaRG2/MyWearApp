@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_list.*
+import org.jetbrains.anko.startActivity
 import ru.tohaman.mywearapp.data.MusicItem
 import ru.tohaman.mywearapp.recycleView.MusicPLAdapter
+import ru.tohaman.mywearapp.viewModels.MusicViewModel
 
 class ListActivity : AppCompatActivity() {
 
@@ -21,7 +23,7 @@ class ListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_list)
 
         // Create adapter for the RecyclerView
-        val adapter = MusicPLAdapter(MusicPLAdapter.OnClickListener{onMenuItemClick(it)})
+        val adapter = MusicPLAdapter(MusicPLAdapter.OnClickListener{ onMenuItemClick(it) })
         rcView.adapter = adapter
         rcView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL,false)
 
@@ -53,5 +55,7 @@ class ListActivity : AppCompatActivity() {
 
     private fun onMenuItemClick(musicItem: MusicItem) {
         Log.d("MWA", "ListActivity.onMenuItemClick, ${musicItem.id}")
+        viewModel.musicInfoActivity(musicItem)
+        startActivity<MusicInfoActivity>("id" to musicItem.id)
     }
 }

@@ -2,6 +2,8 @@ package ru.tohaman.mywearapp
 
 import android.content.Context
 import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import com.acrcloud.rec.sdk.ACRCloudClient
 import com.acrcloud.rec.sdk.ACRCloudConfig
@@ -13,11 +15,8 @@ import org.json.JSONObject
 import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA
 import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA_KEY
 import ru.tohaman.mywearapp.DeveloperKey.TAG
-import android.os.VibrationEffect
-import android.os.Vibrator
 import ru.tohaman.mywearapp.data.MusicDB
 import ru.tohaman.mywearapp.data.MusicItem
-import ru.tohaman.mywearapp.data.MusicItemDao
 import java.io.IOException
 import java.util.*
 
@@ -38,7 +37,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
 
     override fun onCreate() {
         super.onCreate()
-        Log.d("D/MWA","onCreate ListnerService")
+        Log.d("MWA","onCreate ListnerService")
         mConfig = ACRCloudConfig()
         mConfig.acrcloudListener = this
 
@@ -57,7 +56,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
     }
 
     private fun sendMessage2Wear(message : String, key: String = SEND_DATA_KEY, path: String = SEND_DATA) {
-        Log.d("D/MWA","key = $key , message = $message")
+        Log.d("MWA","key = $key , message = $message")
 
         val dataClient = Wearable.getDataClient(this)
 
@@ -74,7 +73,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
 
 
     private fun startRecognize() {
-        Log.d("D/MWA","stertRecoginze ListnerService")
+        Log.d("MWA","stertRecoginze ListnerService")
         if (!initState) {
             sendMessage2Wear("Start init error")
             return
@@ -114,65 +113,72 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
     }
 
     override fun onResult(result: String?) {
-        Log.d("D/MWA","onResult ListnerService")
+        Log.d("MWA","onResult ListnerService")
         if (mClient != null) {
             mClient!!.cancel()
             mProcessing = false
         }
 
-        var tres = "\n"
+        if (result != null) {
+            var tres = "\n"
 
-        var outTitle = ""
-        var outArtist = ""
+            var outTitle = ""
+            var outArtist = ""
 
-        try {
-            val j = JSONObject(result)
-            val j1 = j.getJSONObject("status")
-            val j2 = j1.getInt("code")
-            if (j2 == 0) {
-                val metadata = j.getJSONObject("metadata")
-                //
-                if (metadata.has("music")) {
-                    val musics = metadata.getJSONArray("music")
+            try {
+                val j = JSONObject(result)
+                val j1 = j.getJSONObject("status")
+                val j2 = j1.getInt("code")
+                if (j2 == 0) {
+                    val metadata = j.getJSONObject("metadata")
+                    //
+                    if (metadata.has("music")) {
+                        val musics = metadata.getJSONArray("music")
 //                    for (i in 0 until musics.length()) {
-                    for (i in 0 until 1) {      //берем только одну запись из всех найденных (если найдены конечно)
-                        val tt = musics.get(i) as JSONObject
-                        outTitle = tt.getString("title")
-                        val artistt = tt.getJSONArray("artists")
-                        val art = artistt.get(0) as JSONObject
-                        outArtist = art.getString("name")
-                        tres = tres + (i + 1) + ".  Title: " + outTitle + "    Artist: " + outArtist + "\n"
+                        for (i in 0 until 1) {      //берем только одну запись из всех найденных (если найдены конечно)
+                            val tt = musics.get(i) as JSONObject
+                            outTitle = tt.getString("title")
+                            val artistt = tt.getJSONArray("artists")
+                            val art = artistt.get(0) as JSONObject
+                            outArtist = art.getString("name")
+                            tres =
+                                tres + (i + 1) + ".  Title: " + outTitle + "    Artist: " + outArtist + "\n"
+                        }
                     }
+                    tres = tres + "\n\n" + result
+                } else {
+                    tres = result ?: "\n"
                 }
-                tres = tres + "\n\n" + result
-            } else {
-                tres = result ?: "\n"
+            } catch (e: JSONException) {
+                tres = result ?: ""
+                e.printStackTrace()
             }
-        } catch (e: JSONException) {
-            tres = result ?: ""
-            e.printStackTrace()
-        }
-        sendMessage2Wear("$stopTime : $outArtist")
+            sendMessage2Wear("$stopTime : $outArtist")
             ioThread {
                 try {
                     val dao = MusicDB.get(applicationContext as Context).musicItemDao()
-                    dao.insert(MusicItem(0, outArtist, outTitle, stopTime, Date()))
-                }
-                catch (e: IOException) {
-                    Log.d("D/MWA", "room.dao.exception")
+                    dao.insert(MusicItem(0, outArtist, outTitle, stopTime, Date(), result))
+                } catch (e: IOException) {
+                    Log.d("MWA", "room.dao.exception")
                 }
             }
-        if ((outArtist != "") or (outArtist != "?" ) ) oneShotVibration()
+            if ((outArtist != "") or (outArtist != "?")) oneShotVibration()
+        }
     }
 
     private fun oneShotVibration() {
-        val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        Log.d("MWA","oneShortVibration ListnerService")
+        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
         } else {
             vibrator.vibrate(500)
         }
+
     }
+
+
+
 
     override fun onVolumeChanged(volume: Double) {
         stopTime = (System.currentTimeMillis() - startTime) / 1000

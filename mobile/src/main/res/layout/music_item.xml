@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardPreventCornerOverlap="true"
+            android:onClick="@{() -> clickListener.onClick(viewMenuItem)}"
             app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -65,7 +66,7 @@
                      />
 
             <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/textRecTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:showTime="@{viewMenuItem.recTime}"

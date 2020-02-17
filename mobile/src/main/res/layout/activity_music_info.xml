@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="musicItem"
+                type="ru.tohaman.mywearapp.data.MusicItem"  />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:id="@+id/infoArtistText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:padding="8dp"
+                android:layout_margin="8dp"
+                android:text="@{musicItem.artist}"
+                android:textSize="16sp"
+                app:autoSizeMaxTextSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="The Rasmus" />
+
+        <TextView
+                android:id="@+id/infoTitleText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:layout_margin="8dp"
+                android:text="@{musicItem.title}"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/infoArtistText"
+                tools:text="Sail Away" />
+
+        <TextView
+                android:id="@+id/infoTitleDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:textSize="10sp"
+                app:dateToString="@{musicItem.date}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/infoTitleText"
+                tools:text="04/02/2020 23:32:32" />
+
+        <TextView
+                android:id="@+id/infoRecTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10dp"
+                android:layout_margin="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/infoTitleText"
+                app:showTime="@{musicItem.recTime}"
+                tools:text="5 sek" />
+
+        <TextView
+                android:id="@+id/infoResult"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="8dp"
+                android:text="@{musicItem.result}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/infoTitleDate" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -13,7 +13,8 @@ data class MusicItem (
     var artist: String = "",
     var title: String = "",
     var recTime: Long = 0,
-    var date: Date = Date()
+    var date: Date = Date(),
+    var result: String = ""
 )
 
 
