@@ -21,9 +21,9 @@
             android:supportsRtl="true"
             android:name=".MusicApplication"
             android:theme="@style/AppTheme">
-        <activity android:name=".MusicInfoActivity"></activity>
-        <activity android:name=".ListActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.MusicInfoActivity"></activity>
+        <activity android:name=".ui.ListActivity" />
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".ListenerService">
+        <service android:name=".service.ListenerService">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
 

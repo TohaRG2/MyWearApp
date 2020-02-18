@@ -1,4 +1,4 @@
-package ru.tohaman.mywearapp
+package ru.tohaman.mywearapp.service
 
 import android.content.Context
 import android.os.Build
@@ -12,11 +12,13 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.wearable.*
 import org.json.JSONException
 import org.json.JSONObject
+import ru.tohaman.mywearapp.DeveloperKey
 import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA
 import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA_KEY
 import ru.tohaman.mywearapp.DeveloperKey.TAG
 import ru.tohaman.mywearapp.data.MusicItem
 import ru.tohaman.mywearapp.data.musicDatabase
+import ru.tohaman.mywearapp.ioThread
 import timber.log.Timber
 import java.io.IOException
 import java.util.*
@@ -47,8 +49,10 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
 
         mConfig.context = this
         mConfig.host = DeveloperKey.DK_ACRCloudHostKey
-        mConfig.accessKey = DeveloperKey.DK_ACRCloudAccessKey
-        mConfig.accessSecret = DeveloperKey.DK_ACRCloudAccessSecret
+        mConfig.accessKey =
+            DeveloperKey.DK_ACRCloudAccessKey
+        mConfig.accessSecret =
+            DeveloperKey.DK_ACRCloudAccessSecret
         mConfig.protocol = ACRCloudConfig.ACRCloudNetworkProtocol.PROTOCOL_HTTPS // PROTOCOL_HTTP
         mConfig.reqMode = ACRCloudConfig.ACRCloudRecMode.REC_MODE_REMOTE
 
@@ -160,7 +164,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
                     val dao = musicDatabase.musicItemDao()
                     dao.insert(MusicItem(0, outArtist, outTitle, stopTime, Date(), result))
                 } catch (e: IOException) {
-                    Timber.d( "room.dao.exception")
+                    Timber.d("room.dao.exception")
                 }
             }
             if ((outArtist != "") or (outArtist != "?")) oneShotVibration()

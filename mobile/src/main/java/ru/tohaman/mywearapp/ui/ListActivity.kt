@@ -1,8 +1,7 @@
-package ru.tohaman.mywearapp
+package ru.tohaman.mywearapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -10,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_list.*
 import org.jetbrains.anko.startActivity
+import ru.tohaman.mywearapp.R
 import ru.tohaman.mywearapp.data.MusicItem
 import ru.tohaman.mywearapp.recycleView.MusicPLAdapter
 import ru.tohaman.mywearapp.viewModels.MusicViewModel

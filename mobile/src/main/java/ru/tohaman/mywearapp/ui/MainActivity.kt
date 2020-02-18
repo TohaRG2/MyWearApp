@@ -1,10 +1,9 @@
-package ru.tohaman.mywearapp
+package ru.tohaman.mywearapp.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -26,6 +25,7 @@ import ru.tohaman.mywearapp.DeveloperKey.DK_ACRCloudHostKey
 import java.io.File
 import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA
 import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA_KEY
+import ru.tohaman.mywearapp.R
 import ru.tohaman.mywearapp.data.MusicItem
 import ru.tohaman.mywearapp.viewModels.MusicViewModel
 import timber.log.Timber
