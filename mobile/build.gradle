@@ -66,6 +66,7 @@ dependencies {
 // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
     implementation "androidx.room:room-ktx:$rootProject.roomVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
     implementation "androidx.paging:paging-runtime-ktx:2.1.1"
@@ -73,7 +74,6 @@ dependencies {
 // Lifecycle components
     implementation "androidx.paging:paging-runtime-ktx:2.1.1"
     implementation 'androidx.fragment:fragment-ktx:1.2.1'
-    implementation "android.arch.lifecycle:extensions:1.1.1"
     implementation "android.arch.persistence.room:runtime:2.2.3"
 
 // ViewModel Kotlin support
@@ -84,6 +84,9 @@ dependencies {
 
 // UI
     implementation "com.google.android.material:material:$rootProject.materialVersion"
+
+//Timber для удобного вывода в лог данных
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 
 // Testing
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"

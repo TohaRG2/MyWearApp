@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import ru.tohaman.mywearapp.data.MusicItem
 import ru.tohaman.mywearapp.databinding.ActivityMusicInfoBinding
 import ru.tohaman.mywearapp.viewModels.ItemInfoViewModel
+import timber.log.Timber
 
 
 class MusicInfoActivity : AppCompatActivity() {
@@ -24,8 +25,8 @@ class MusicInfoActivity : AppCompatActivity() {
         val id = bundle!!.getInt("id", 10)
         viewModel.curId = id.toLong()
 
-
-        Log.d("MWA", "Artist - ${viewModel.currentItem.value}")
+        Timber.d("Artist - ${viewModel.curId}")
+        //Log.d("MWA", "Artist - ${viewModel.currentItem.value}")
 
 //        binding.viewModel = viewModel.currentItem
 
@@ -39,7 +40,7 @@ class MusicInfoActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.setMusicItemById(id.toLong())
+        //viewModel.setMusicItemById(id.toLong())
 
     }
 }

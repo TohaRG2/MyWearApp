@@ -7,6 +7,11 @@ import androidx.room.*
 
 @Dao
 interface MusicItemDao {
+
+    @Query ("select * FROM RQ_Results order by id")
+    fun observeAllMusic(): LiveData<List<MusicItem>>
+
+
     @Query("SELECT * FROM RQ_Results")
     fun getAll(): DataSource.Factory<Int, MusicItem>
 

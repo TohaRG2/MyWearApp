@@ -28,6 +28,7 @@ import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA
 import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA_KEY
 import ru.tohaman.mywearapp.data.MusicItem
 import ru.tohaman.mywearapp.viewModels.MusicViewModel
+import timber.log.Timber
 import java.util.*
 
 class MainActivity : AppCompatActivity(), IACRCloudListener {
@@ -196,7 +197,7 @@ class MainActivity : AppCompatActivity(), IACRCloudListener {
         var outArtist = ""
 
         try {
-            val j = JSONObject(result)
+            val j = JSONObject(result ?: "")
             val j1 = j.getJSONObject("status")
             val j2 = j1.getInt("code")
             if (j2 == 0) {
@@ -246,20 +247,13 @@ class MainActivity : AppCompatActivity(), IACRCloudListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.e("MainActivity", "release")
+        Timber.e("onDestroy")
         if (mClient != null) {
             mClient!!.release()
             initState = false
             mClient = null
         }
 
-    }
-
-    /** As simple wrapper around Log.i  */
-    private fun LOGI(tag: String, message: String) {
-        if (Log.isLoggable(tag, Log.INFO)) {
-            Log.i(tag, message)
-        }
     }
 
 }

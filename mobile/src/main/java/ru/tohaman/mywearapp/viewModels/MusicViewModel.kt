@@ -8,12 +8,15 @@ import ru.tohaman.mywearapp.data.MusicDB
 import androidx.paging.Config
 import androidx.paging.toLiveData
 import ru.tohaman.mywearapp.data.MusicItem
+import ru.tohaman.mywearapp.data.musicDatabase
+import ru.tohaman.mywearapp.dataSource.repository
 import ru.tohaman.mywearapp.ioThread
 
 class MusicViewModel(app: Application) : AndroidViewModel(app){
-    private val dao = MusicDB.get(app).musicItemDao()
 
-    val allMusic = dao.getAll().toLiveData(Config (pageSize = 30, enablePlaceholders = true, maxSize = 200))
+    val allMusic = repository.loadMusicItems()
+
+        //dao.getAll().toLiveData(Config (pageSize = 30, enablePlaceholders = true, maxSize = 200))
 
     val curArtist : MutableLiveData<String> by lazy { MutableLiveData<String>("lArt") }
 
@@ -33,11 +36,11 @@ class MusicViewModel(app: Application) : AndroidViewModel(app){
     }
 
     fun insert(item: MusicItem) = ioThread {
-        dao.insert(item)
+        //dao.insert(item)
     }
 
     fun remove(item: MusicItem) = ioThread {
-        dao.delete(item)
+        //dao.delete(item)
     }
 
 }

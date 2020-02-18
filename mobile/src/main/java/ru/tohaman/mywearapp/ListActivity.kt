@@ -13,6 +13,7 @@ import org.jetbrains.anko.startActivity
 import ru.tohaman.mywearapp.data.MusicItem
 import ru.tohaman.mywearapp.recycleView.MusicPLAdapter
 import ru.tohaman.mywearapp.viewModels.MusicViewModel
+import timber.log.Timber
 
 class ListActivity : AppCompatActivity() {
 
@@ -54,7 +55,7 @@ class ListActivity : AppCompatActivity() {
     }
 
     private fun onMenuItemClick(musicItem: MusicItem) {
-        Log.d("MWA", "ListActivity.onMenuItemClick, ${musicItem.id}")
+        Timber.d("onMenuItemClick, ${musicItem.id}")
         viewModel.musicInfoActivity(musicItem)
         startActivity<MusicInfoActivity>("id" to musicItem.id)
     }

@@ -15,8 +15,9 @@ import org.json.JSONObject
 import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA
 import ru.tohaman.mywearapp.DeveloperKey.SEND_DATA_KEY
 import ru.tohaman.mywearapp.DeveloperKey.TAG
-import ru.tohaman.mywearapp.data.MusicDB
 import ru.tohaman.mywearapp.data.MusicItem
+import ru.tohaman.mywearapp.data.musicDatabase
+import timber.log.Timber
 import java.io.IOException
 import java.util.*
 
@@ -37,7 +38,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
 
     override fun onCreate() {
         super.onCreate()
-        Log.d("MWA","onCreate ListnerService")
+        Timber.d("onCreate ListnerService")
         mConfig = ACRCloudConfig()
         mConfig.acrcloudListener = this
 
@@ -56,7 +57,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
     }
 
     private fun sendMessage2Wear(message : String, key: String = SEND_DATA_KEY, path: String = SEND_DATA) {
-        Log.d("MWA","key = $key , message = $message")
+        Timber.d("key = $key , message = $message")
 
         val dataClient = Wearable.getDataClient(this)
 
@@ -73,7 +74,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
 
 
     private fun startRecognize() {
-        Log.d("MWA","stertRecoginze ListnerService")
+        Timber.d("startRecoginze")
         if (!initState) {
             sendMessage2Wear("Start init error")
             return
@@ -91,14 +92,14 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
 
     override fun onDataChanged(dataEvents: DataEventBuffer) {
         if (Log.isLoggable(TAG, Log.INFO)) {
-            Log.i(TAG, "onDataChanged: $dataEvents")
+            Timber.i( "onDataChanged: $dataEvents")
         }
         // Поскольку это сервис, то он уже отсеивает Event по фильтру в манифесте
         // поэтому немного отличается от того, что в приложении для часов
 
         dataEvents.map { it.dataItem.uri }
             .forEach { uri ->
-                Log.d(TAG, "onDataChanged.Item: ${uri.path}")
+                Timber.d( "onDataChanged.Item: ${uri.path}")
                 // Get the node id from the host value of the URI
                 //val nodeId: String? = uri.host
                 // Set the data of the message to be the bytes of the URI
@@ -113,7 +114,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
     }
 
     override fun onResult(result: String?) {
-        Log.d("MWA","onResult ListnerService")
+        Timber.d("onResult ListnerService")
         if (mClient != null) {
             mClient!!.cancel()
             mProcessing = false
@@ -156,10 +157,10 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
             sendMessage2Wear("$stopTime : $outArtist")
             ioThread {
                 try {
-                    val dao = MusicDB.get(applicationContext as Context).musicItemDao()
+                    val dao = musicDatabase.musicItemDao()
                     dao.insert(MusicItem(0, outArtist, outTitle, stopTime, Date(), result))
                 } catch (e: IOException) {
-                    Log.d("MWA", "room.dao.exception")
+                    Timber.d( "room.dao.exception")
                 }
             }
             if ((outArtist != "") or (outArtist != "?")) oneShotVibration()
@@ -167,7 +168,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
     }
 
     private fun oneShotVibration() {
-        Log.d("MWA","oneShortVibration ListnerService")
+        Timber.d("oneShortVibration ListnerService")
         val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))

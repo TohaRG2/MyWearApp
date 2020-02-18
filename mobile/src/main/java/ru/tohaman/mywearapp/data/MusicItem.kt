@@ -15,6 +15,10 @@ data class MusicItem (
     var recTime: Long = 0,
     var date: Date = Date(),
     var result: String = ""
-)
+) {
+    override fun toString(): String {
+        return "$id, $artist - $title, $date"
+    }
+}
 
 
