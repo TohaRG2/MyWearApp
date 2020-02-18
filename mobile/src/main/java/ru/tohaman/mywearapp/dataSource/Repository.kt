@@ -9,6 +9,7 @@ import androidx.paging.toLiveData
 import ru.tohaman.mywearapp.data.MusicDB
 import ru.tohaman.mywearapp.data.MusicItem
 import ru.tohaman.mywearapp.data.musicDatabase
+import ru.tohaman.mywearapp.ioThread
 
 val repository by lazy { RepDataSource() }
 
@@ -20,39 +21,41 @@ class RepDataSource (private val database: MusicDB = musicDatabase) : MusicDataS
      */
 
     override fun observeAllMusicItems(): LiveData<Result<List<MusicItem>>> {
-        val res = database.musicItemDao().observeAllMusic()
+        val res = database.musicDao.observeAllMusic()
         return res.map {
             Result.Success(it)
         }
     }
-    override fun observeMusicItem(petId: Int): LiveData<Result<MusicItem>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun observeMusicItem(musicItemId: Int): LiveData<Result<MusicItem>> =
+        database.musicDao.observeItemById(musicItemId).map {
+            Result.Success(it)
+        }
 
     override suspend fun getAllMusic(): Result<List<MusicItem>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun loadMusicItems(): LiveData<PagedList<MusicItem>> =
-        database.musicItemDao().getAll().toLiveData(Config (pageSize = 30, enablePlaceholders = true, maxSize = 200))
+    override fun loadAllMusicItems(): LiveData<PagedList<MusicItem>> =
+        database.musicDao.getAll().toLiveData(Config (pageSize = 30, enablePlaceholders = true, maxSize = 200))
 
-    override suspend fun getMusicItemById(petId: Int): Result<MusicItem> {
+    override suspend fun getMusicItemById(musicItemId: Int): Result<MusicItem> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun insertAMusicItem(pet: MusicItem): Long {
+    override fun insertMusicItem(musicItem: MusicItem) {
+        ioThread { database.musicDao.insert(musicItem) }
+    }
+
+    override suspend fun updateMusicItem(musicItem: MusicItem) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun updateAMusicItem(pet: MusicItem) {
+    override suspend fun deleteMusicItemById(musicItemId: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun deleteAPetById(petId: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun deleteMusicItem(musicItem: MusicItem) {
+        ioThread { database.musicDao.delete(musicItem) }
     }
 
-    override suspend fun deleteAllPets(pets: List<MusicItem>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 }

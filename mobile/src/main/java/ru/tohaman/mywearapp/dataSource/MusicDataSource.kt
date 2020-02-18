@@ -8,20 +8,20 @@ interface MusicDataSource {
 
     fun observeAllMusicItems(): LiveData<Result<List<MusicItem>>>
 
-    fun observeMusicItem(petId: Int): LiveData<Result<MusicItem>>
+    fun observeMusicItem(musicItemId: Int): LiveData<Result<MusicItem>>
 
     suspend fun getAllMusic(): Result<List<MusicItem>>
 
-    fun loadMusicItems(): LiveData<PagedList<MusicItem>>
+    fun loadAllMusicItems(): LiveData<PagedList<MusicItem>>
 
-    suspend fun getMusicItemById(petId: Int): Result<MusicItem>
+    suspend fun getMusicItemById(itemId: Int): Result<MusicItem>
 
-    suspend fun insertAMusicItem(pet: MusicItem): Long
+    fun insertMusicItem(musicItem: MusicItem)
 
-    suspend fun updateAMusicItem(pet: MusicItem)
+    suspend fun updateMusicItem(musicItem: MusicItem)
 
-    suspend fun deleteAPetById(petId: Int)
+    suspend fun deleteMusicItemById(musicItemId: Int)
 
-    suspend fun deleteAllPets(pets: List<MusicItem>)
+    fun deleteMusicItem(musicItem: MusicItem)
 
 }

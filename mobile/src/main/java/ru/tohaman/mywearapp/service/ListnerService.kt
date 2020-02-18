@@ -161,7 +161,7 @@ class ListenerService : WearableListenerService(), IACRCloudListener {
             sendMessage2Wear("$stopTime : $outArtist")
             ioThread {
                 try {
-                    val dao = musicDatabase.musicItemDao()
+                    val dao = musicDatabase.musicDao
                     dao.insert(MusicItem(0, outArtist, outTitle, stopTime, Date(), result))
                 } catch (e: IOException) {
                     Timber.d("room.dao.exception")

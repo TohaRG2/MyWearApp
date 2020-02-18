@@ -11,6 +11,8 @@ interface MusicItemDao {
     @Query ("select * FROM RQ_Results order by id")
     fun observeAllMusic(): LiveData<List<MusicItem>>
 
+    @Query ("SELECT * FROM RQ_Results WHERE id = :itemId")
+    fun observeItemById(itemId : Int): LiveData<MusicItem>
 
     @Query("SELECT * FROM RQ_Results")
     fun getAll(): DataSource.Factory<Int, MusicItem>

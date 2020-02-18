@@ -1,20 +1,16 @@
 package ru.tohaman.mywearapp.viewModels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import ru.tohaman.mywearapp.data.MusicDB
-import androidx.paging.Config
-import androidx.paging.toLiveData
 import ru.tohaman.mywearapp.data.MusicItem
-import ru.tohaman.mywearapp.data.musicDatabase
 import ru.tohaman.mywearapp.dataSource.repository
 import ru.tohaman.mywearapp.ioThread
+import timber.log.Timber
 
 class MusicViewModel(app: Application) : AndroidViewModel(app){
 
-    val allMusic = repository.loadMusicItems()
+    val allMusic = repository.loadAllMusicItems()
 
         //dao.getAll().toLiveData(Config (pageSize = 30, enablePlaceholders = true, maxSize = 200))
 
@@ -25,22 +21,22 @@ class MusicViewModel(app: Application) : AndroidViewModel(app){
     }
 
     fun getCurrentItem () : MusicItem {
-        Log.d("MWA", "Artist - ${currentItem.value}")
+        Timber.d( "Artist - ${currentItem.value}")
         return currentItem.value ?: MusicItem(0, "nullArtist","nullTitle")
     }
 
     fun musicInfoActivity(musicItem: MusicItem) {
         currentItem.value = MusicItem(0, "Art", "Tit")
 
-        Log.d("MWA", "Artist - ${currentItem.value?.artist}")
+        Timber.d( "Artist - ${currentItem.value?.artist}")
     }
 
-    fun insert(item: MusicItem) = ioThread {
-        //dao.insert(item)
+    fun insert(item: MusicItem) {
+        repository.insertMusicItem(item)
     }
 
     fun remove(item: MusicItem) = ioThread {
-        //dao.delete(item)
+        repository.deleteMusicItem(item)
     }
 
 }

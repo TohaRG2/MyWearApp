@@ -23,7 +23,7 @@ class MusicInfoActivity : AppCompatActivity() {
         )
 
         val bundle :Bundle? = intent.extras
-        val id = bundle!!.getInt("id", 10)
+        val id = bundle!!.getInt("id", 0)
 //        viewModel.curId = id.toLong()
 //
 //        Timber.d("Artist - ${viewModel.curId}")

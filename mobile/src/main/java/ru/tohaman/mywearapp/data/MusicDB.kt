@@ -22,7 +22,8 @@ private fun buildDatabase(context: Context) = Room.databaseBuilder(context,
 @Database(entities = [MusicItem::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class MusicDB : RoomDatabase() {
-    abstract fun musicItemDao(): MusicItemDao
+    //abstract fun musicItemDao(): MusicItemDao
+    abstract val musicDao : MusicItemDao
 
 //    companion object {
 //        private var instance: MusicDB? = null
