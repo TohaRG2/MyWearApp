@@ -1,34 +1,41 @@
 package ru.tohaman.mywearapp.viewModels
 
 import android.app.Application
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
-import ru.tohaman.mywearapp.data.MusicDB
-import androidx.paging.Config
-import androidx.paging.toLiveData
+import androidx.lifecycle.*
 import ru.tohaman.mywearapp.data.MusicItem
 import ru.tohaman.mywearapp.dataSource.repository
-import ru.tohaman.mywearapp.ioThread
+import ru.tohaman.mywearapp.toMutableLiveData
+import ru.tohaman.mywearapp.dataSource.Result
 
-class ItemInfoViewModel(app: Application) : AndroidViewModel(app){
+class ItemInfoViewModel(app: Application, id: Int) : AndroidViewModel(app){
     //private val dao = MusicDB.get(app).musicItemDao()
 
-    var curId : Int = 0
+    var curId = id.toMutableLiveData()
 
-    private var currentItem  = repository.observeMusicItem(curId)
+    private val _musicItem = curId.switchMap {
+        repository.observeMusicItem(it).map {result ->
+            getResult(result)
+        }
+    }
 
-//    init {
-//        currentItem =
-//    }
-//
-//    fun setMusicItemById (id: Long) {
-//         currentItem.value = dao.getById(id).value
-//    }
+    private fun getResult(taskResult: Result<MusicItem>) :MusicItem? {
+        return if (taskResult is Result.Success) {
+            taskResult.data
+        } else {
+            null
+        }
+    }
 
-    fun getMusicItem() = currentItem
+    var currentItem  = _musicItem
+
+    companion object {
+        class ItemInfoViewModelFactory (val app: Application, val id: Int) : ViewModelProvider.AndroidViewModelFactory(app) {
+
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return ItemInfoViewModel(app, id) as T
+            }
+        }
+    }
 
 }
 

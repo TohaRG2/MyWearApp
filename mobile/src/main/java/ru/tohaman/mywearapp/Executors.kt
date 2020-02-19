@@ -16,6 +16,7 @@
 
 package ru.tohaman.mywearapp
 
+import androidx.lifecycle.MutableLiveData
 import java.util.concurrent.Executors
 
 private val IO_EXECUTOR = Executors.newSingleThreadExecutor()
@@ -25,4 +26,9 @@ private val IO_EXECUTOR = Executors.newSingleThreadExecutor()
  */
 fun ioThread(f : () -> Unit) {
     IO_EXECUTOR.execute(f)
+}
+
+fun <T> T.toMutableLiveData(): MutableLiveData<T> {
+    return MutableLiveData<T>()
+        .also { it.postValue( this) }
 }

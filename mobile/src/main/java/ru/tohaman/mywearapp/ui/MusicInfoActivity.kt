@@ -1,11 +1,13 @@
 package ru.tohaman.mywearapp.ui
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import ru.tohaman.mywearapp.R
+import ru.tohaman.mywearapp.data.MusicItem
 import ru.tohaman.mywearapp.databinding.ActivityMusicInfoBinding
 import ru.tohaman.mywearapp.viewModels.ItemInfoViewModel
 import timber.log.Timber
@@ -13,7 +15,7 @@ import timber.log.Timber
 
 class MusicInfoActivity : AppCompatActivity() {
 
-    private val viewModel by viewModels<ItemInfoViewModel>()
+    private lateinit var  viewModel : ItemInfoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,24 +26,13 @@ class MusicInfoActivity : AppCompatActivity() {
 
         val bundle :Bundle? = intent.extras
         val id = bundle!!.getInt("id", 0)
-//        viewModel.curId = id.toLong()
-//
-//        Timber.d("Artist - ${viewModel.curId}")
-        //Log.d("MWA", "Artist - ${viewModel.currentItem.value}")
 
-//        binding.viewModel = viewModel.currentItem
+        viewModel = ViewModelProvider(this, ItemInfoViewModel.Companion.ItemInfoViewModelFactory(application, id)).get(ItemInfoViewModel::class.java)
 
-        //binding.viewMusicItem = (MusicItem(0,"SOME ARTIST","TITLE", 4))
+        Timber.d("Artist - ${viewModel.curId}")
 
-        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-//        viewModel.getMusicItem().observe(this, Observer {
-//            it?.let {
-//                // Update the UI, in this case, a TextView.
-//                binding.musicItem = it
-//            }
-//        })
-
-        //viewModel.setMusicItemById(id.toLong())
+        val dataMusicItem : LiveData<MusicItem?> = viewModel.currentItem
+        dataMusicItem.observe(this, Observer { binding.musicItem = it })
 
     }
 }
