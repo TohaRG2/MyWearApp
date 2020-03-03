@@ -16,7 +16,9 @@ val musicDatabase: MusicDB by lazy {buildDatabase(applicationLiveData.getApplica
 
 private fun buildDatabase(context: Context) = Room.databaseBuilder(context,
     MusicDB::class.java, DATABASE_NAME)
+    //Если делаем fallbackToDestructiveMigration(), то при изменении структуры, база пересоздается с нуля
     .fallbackToDestructiveMigration()
+
     .build()
 
 @Database(entities = [MusicItem::class], version = 1)
