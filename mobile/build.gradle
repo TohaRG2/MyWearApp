@@ -46,6 +46,7 @@ android {
     packagingOptions {
         exclude 'META-INF/atomicfu.kotlin_module'
     }
+    buildToolsVersion '30.0.2'
 }
 
 dependencies {

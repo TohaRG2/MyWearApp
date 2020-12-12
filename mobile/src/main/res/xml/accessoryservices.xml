@@ -34,10 +34,10 @@
 
     <application name="HelloMessageProvider" >
         <serviceProfile
-            id="/tohaman/hellomessage"
+            id="/tohaman/myWearApp"
             name="hellomessage"
             role="provider"
-            serviceImpl="com.samsung.android.sdk.accessory.example.hellomessage.provider.ProviderService"
+            serviceImpl="ru.tohaman.mywearapp.service.SamsungServiceKotlin"
             version="1.0">
             <supportedTransports>
                 <transport type="TRANSPORT_BT" />
